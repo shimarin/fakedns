@@ -41,7 +41,7 @@ class DynamicResolver(object):
             if self.suffix is not None: name += self.suffix
             try:
                 address = socket.gethostbyname(name)
-                answer = dns.RRHeader(name=query.name.name,payload=dns.Record_A(address=address))
+                answer = dns.RRHeader(name=query.name.name,payload=dns.Record_A(address=address),ttl=15)
                 return defer.succeed(([answer],[],[]))
             except:
                 pass
