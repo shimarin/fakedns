@@ -1,0 +1,9 @@
+# Save this file as /etc/systemd/system/fakedns.service 
+[Unit]
+Description=Fake DNS that uses system name resolver service
+
+[Service]
+ExecStart=/usr/sbin/fakedns
+
+[Install]
+WantedBy=multi-user.target
