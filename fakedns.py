@@ -49,12 +49,12 @@ class DynamicResolver(object):
         #else
         return defer.fail(error.DomainError())
 
-def run(suffix = None, port = 53):
+def run(suffix = None, port = 53, bind_address="127.0.0.1"):
     factory = server.DNSServerFactory(clients=[DynamicResolver(suffix)])
     protocol = dns.DNSDatagramProtocol(controller=factory)
 
-    reactor.listenUDP(port, protocol)
-    reactor.listenTCP(port, factory)
+    reactor.listenUDP(port, protocol, interface=bind_address)
+    reactor.listenTCP(port, factory, interface=bind_address)
 
     reactor.run()
 
@@ -62,6 +62,7 @@ if __name__ == '__main__':
     parser = argparse.ArgumentParser()
     parser.add_argument("--suffix", type=str, help="Name suffix added when resolve")
     parser.add_argument("-p", "--port", type=int, default=53 if os.getuid() == 0 else 10053, help="Port number to listen")
+    parser.add_argument("-a", "--bind-address", type=str, default="127.0.0.1", help="Bind address")
     args = parser.parse_args()
 
-    run(args.suffix, args.port)
+    run(args.suffix, args.port, args.bind_address)
