@@ -27,7 +27,6 @@ THE SOFTWARE.
 # emerge twisted-names
 
 import argparse,socket,os
-import daemon.runner
 from twisted.internet import reactor, defer, threads
 from twisted.names import client, dns, error, server
 
